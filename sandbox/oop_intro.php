@@ -5,6 +5,7 @@ class Instrument {
   // class properties
   public string $name;
   public string $tuning;
+  public float $cost = 100.00;
 
   // class methods
   public function play(): void
