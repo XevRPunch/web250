@@ -10,16 +10,30 @@ class Weapon {
   public int $intelligenceRequirement = 0;
   public int $faithRequirement = 0;
 
-  public string $strengthScaling = "-";
-  public string $dexterityScaling = "-";
-  public string $intelligenceScaling = "-";
-  public string $faithScaling = "-";
+  private string $strengthScaling = "-";
+  private string $dexterityScaling = "-";
+  private string $intelligenceScaling = "-";
+  private string $faithScaling = "-";
 
   public int $attackPhysical;
   public int $attackMagic = 0;
   public int $attackFire = 0;
   public int $attackLightning = 0;
   public int $attackDark = 0;
+
+  public function setScaling($stat, $scaling) {
+    if (in_array($scaling, ["S","A","B","C","D","E"])) {
+      if ($stat == "strength") {
+        $this->strengthScaling = $scaling;
+      } elseif ($stat == "dexterity") {
+        $this->dexterityScaling = $scaling;
+      } elseif ($stat == "intelligence") {
+        $this->intelligenceScaling = $scaling;
+      } elseif ($stat == "faith") {
+        $this->faithScaling = $scaling;
+      }
+    }
+  }
 
   public function describeWeapon() {
     echo("The $this->name is a $this->type in Dark Souls III. <br>");
@@ -85,14 +99,14 @@ $moonlightGreatsword->type = "Greatsword";
 $moonlightGreatsword->strengthRequirement = 16;
 $moonlightGreatsword->dexterityRequirement = 11;
 $moonlightGreatsword->intelligenceRequirement = 26;
-$moonlightGreatsword->strengthScaling = "E";
-$moonlightGreatsword->intelligenceScaling = "C";
+$moonlightGreatsword->setScaling("strength", "E");
+$moonlightGreatsword->setScaling("intelligence", "C");
 $moonlightGreatsword->attackPhysical = 144;
 $moonlightGreatsword->attackMagic = 200;
 
 $moonlightGreatsword->describeWeapon();
 
-echo("<br><br><br>");
+echo("<br><hr><br><br>");
 
 $sagesCrystalStaff = new CastingWeapon;
 $sagesCrystalStaff->name = "Sage's Crystal Staff";
@@ -101,14 +115,14 @@ Crystal spheres devour the will of the user, and this staff increases the potenc
 $sagesCrystalStaff->type = "Staff";
 $sagesCrystalStaff->strengthRequirement = 7;
 $sagesCrystalStaff->intelligenceRequirement = 24;
-$sagesCrystalStaff->strengthScaling = "E";
-$sagesCrystalStaff->intelligenceScaling = "B";
+$sagesCrystalStaff->setScaling("strength", "E");
+$sagesCrystalStaff->setScaling("intelligence", "B");
 $sagesCrystalStaff->attackPhysical = 154;
 $sagesCrystalStaff->spellBuff = 130;
 
 $sagesCrystalStaff->describeWeapon();
 
-echo("<br><br><br>");
+echo("<br><br><hr><br><br>");
 
 $avelyn = new ProjectileWeapon;
 $avelyn->name = "Avelyn";
