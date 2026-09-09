@@ -19,8 +19,8 @@
 
     $kiwi = new Kiwi;
     $kiwi->flying = "no";
-    echo "<p>The " . $fly_catcher->name . " " . $fly_catcher->can_fly() . ".</p>";
-    echo "<p>The " . $kiwi->name . " " . $kiwi->can_fly() . ".</p>";    
+    echo "<p>The " . $fly_catcher->name . " " . $fly_catcher->canFly() . ".</p>";
+    echo "<p>The " . $kiwi->name . " " . $kiwi->canFly() . ".</p>";    
 
 ?>
     </body>
