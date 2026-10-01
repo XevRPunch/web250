@@ -54,7 +54,8 @@ class ParseCSV {
   }
 
   /*
-   * 
+   * If not for lastResults(), the only way to retrieve parsed data from ParseCSV would be parse().
+   * This would not be ideal because calling parse() to retrieve data already parsed would re-parse the data unnecessarily.
    */
   public function lastResults() {
     return $this->data;
