@@ -40,7 +40,20 @@ class Bird {
    * why comment required: on the first protected property, explain why it is
    * protected when common_name is public.
    */
-
+  public string $common_name;
+  public string $scientific_name;
+  public string $habitat;
+  public string $food;
+  public string $nest_placement;
+  public string $behavior;
+  /*
+   * $wingspan_cm needs to be protected because it stores length, which can be measured with different units.
+   * Setters and getters can allow it to be interacted with as either centimeters or inches safely.
+   */
+  protected float $wingspan_cm;
+  protected float $weight_g;
+  protected int $conservation_id;
+  public string $backyard_tips;
 
 
   /*
@@ -53,7 +66,13 @@ class Bird {
    * method on ParseCSV. They often report the same number. Say when they
    * would not.
    */
-
+  /*
+   * ParseCSV can be used to parse multiple files or the same file repeatedly.
+   * When starting a new parse, the $row_count is reset. This means it shows how
+   * many items it has parsed, whereas $counter shows the total amount of birds
+   * registered ever. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+   */
+  public static int $counter;
 
 
   /*
@@ -67,7 +86,25 @@ class Bird {
    * Nothing in this assignment validates against them, but a filter menu or
    * an HTML form would read them, which is the reason they are public.
    */
-
+    public const HABITATS = [
+      "Cliff",
+      "Fields",
+      "Forests",
+      "High elevation",
+      "Open woodlands",
+      "Scrub",
+      "Wetland"
+    ];
+    public const FOOD = [
+      "Birds",
+      "Fish",
+      "Insects",
+      "Nectar",
+      "Nuts",
+      "Omnivore",
+      "Seeds",
+      "Small mammals"
+    ];
 
 
   /*
@@ -86,7 +123,19 @@ class Bird {
    * HABITATS is public? And why does the CSV store the number 3 instead of
    * the words "Extreme concern"?
    */
-
+  /*
+   * The CSV stores numbers rather than strings so that the string values can be changed without changing each one manually.
+   * Them being numbers also provides benefits such as sorting them numerically, so it is useful for data that represents a linear scale.
+   * 
+   * HABITATS is public because its purpose is to be accessed by HTML.
+   * CONSERVATION_OPTIONS is protected so it is not changed during runtime, which would break things.
+   */
+  protected const CONSERVATION_OPTIONS = [
+    1 => 'Low concern',
+    2 => 'Moderate concern',
+    3 => 'Extreme concern',
+    4 => 'Extinct'
+  ];
 
 
   /*
@@ -109,7 +158,23 @@ class Bird {
    * why comment required: why one $args array instead of a parameter for each
    * column? What happens if someone reorders the columns in the CSV?
    */
-
+  /*
+   * An args array is preferable because there is no need to memorize or follow a sequence of arguments.
+   * If someone reorders the columns in the CSV, it is no issue. If this happened with seperate args it
+   * would break the constructor from the point of the moved arg onward.
+   */
+  public function __construct($args=[]) {
+    $this->common_name = $args['common_name'] ?? '';
+    $this->scientific_name = $args['scientific_name'] ?? '';
+    $this->habitat = $args['habitat'] ?? '';
+    $this->food = $args['food'] ?? '';
+    $this->nest_placement = $args['nest_placement'] ?? '';
+    $this->behavior = $args['behavior'] ?? '';
+    $this->wingspan_cm = $args['wingspan'] ?? 0;
+    $this->weight_g = $args['weight'] ?? 0;
+    $this->conservation_id = $args['conservation_id'] ?? 1;
+    $this->backyard_tips = $args['backyard_tips'] ?? '';
+  }
 
 
   /*
@@ -128,6 +193,27 @@ class Bird {
    * why comment required: on set_wingspan_in(), explain why a setter named
    * for inches writes to a property measured in centimeters.
    */
+  public function wingspan_cm() {
+    return number_format($this->wingspan_cm, 2) . ' cm';
+  }
+  public function set_wingspan_cm(float $new_wingspan_cm) {
+    $this->wingspan_cm = floatval($new_wingspan_cm);
+  }
+
+  public function wingspan_in() {
+    $wingspan_in = floatval($this->wingspan_cm) * 0.393701;
+    return number_format($wingspan_in, 2) . ' in';
+  }
+  /*
+   * The property itself needs to conform to one singular unit, so the inches
+   * setter converts to centimeters for storage.
+   * 
+   * The other option would be to have separate variables for each unit, which
+   * would be bloated and lame and risks them being desynced.
+   */
+  public function set_wingspan_in(float $new_wingspan_in) {
+    $this->wingspan_cm = floatval($new_wingspan_in) / 0.393701;
+  }
 
 
 
@@ -137,7 +223,20 @@ class Bird {
    * Same four-method pattern for weight_g / weight_oz.
    * 1 g = 0.0352740 oz.
    */
+  public function weight_g() {
+    return number_format($this->weight_g, 2) . ' kg';
+  }
+  public function set_weight_g(float $new_weight_g) {
+    $this->weight_g = floatval($new_weight_g);
+  }
 
+  public function weight_oz() {
+    $weight_oz = floatval($this->weight_g) * 0.0352740;
+    return number_format($weight_oz, 2) . ' lbs';
+  }
+  public function set_weight_oz(float $new_weight_oz) {
+    $this->weight_g = floatval($new_weight_oz) / 0.0352740;
+  }
 
 
   /*
@@ -154,7 +253,19 @@ class Bird {
    *
    * why comment required: why self:: and not $this->?
    */
-
+  /*
+   * self:: refers to the class itself rather than an individual instance,
+   * which is what $this refers to. It is used when getting constants.
+   * There is no point in having the conservation options be object-level,
+   * since they are universal for all birds.
+   */
+  public function conservation() {
+    if($this->conservation_id > 0 and $this->conservation_id < 5) {
+      return self::CONSERVATION_OPTIONS[$this->conservation_id];
+    } else {
+      return "Unknown";
+    }
+  }
 
 
   /*
