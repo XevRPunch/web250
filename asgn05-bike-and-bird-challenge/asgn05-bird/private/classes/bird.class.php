@@ -70,9 +70,10 @@ class Bird {
    * ParseCSV can be used to parse multiple files or the same file repeatedly.
    * When starting a new parse, the $row_count is reset. This means it shows how
    * many items it has parsed, whereas $counter shows the total amount of birds
-   * registered ever. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+   * registered ever. If multiple parses were to register birds separately, the
+   * number of rows parsed would not equal the number of birds registered.
    */
-  public static int $counter;
+  public static int $count = 0;
 
 
   /*
@@ -170,10 +171,11 @@ class Bird {
     $this->food = $args['food'] ?? '';
     $this->nest_placement = $args['nest_placement'] ?? '';
     $this->behavior = $args['behavior'] ?? '';
-    $this->wingspan_cm = $args['wingspan'] ?? 0;
-    $this->weight_g = $args['weight'] ?? 0;
+    $this->set_wingspan_cm($args['wingspan_cm'] ?? 0);
+    $this->set_weight_g($args['weight_g'] ?? 0);
     $this->conservation_id = $args['conservation_id'] ?? 1;
     $this->backyard_tips = $args['backyard_tips'] ?? '';
+    self::$count++;
   }
 
 
@@ -279,7 +281,20 @@ class Bird {
    * useful number of birds in each group. Document the numbers you chose in
    * your comment and say why they suit this data.
    */
-
+  /**
+   * I chose these cutoffs because they make 6 mediums, 5 larges, and 5 smalls.
+   * This seems pretty reasonable to me since it's a mostly even spread with the
+   * one extra being in the medium (normal/average) group.
+   */
+  public function size_class() {
+    if ($this->wingspan_cm > 55) {
+      return "Large";
+    } elseif ($this->wingspan_cm > 25) {
+      return "Medium";
+    } else {
+      return "Small";
+    }
+  }
 
 
   /*
@@ -300,8 +315,33 @@ class Bird {
    *
    * why comment required: state which approach you chose and why.
    */
+  /*
+   * I chose to add the <em> tags here.
+   * I find it much more elegant than any solution I could think of to add them in birds.php,
+   * which all entail wrapping both values in one and then unwrapping them into separate values
+   * in birds.php, which seems like arbitrary work.
+   * 
+   * I see no issue with adding them here since both names are also stored separately with no
+   * html and this function already exists purely for display purposes, so it's not like any
+   * damage is being done to the data.
+   * 
+   * Nothing seems wrong when using h() around the values in this function itself and not in
+   * birds.php. HTML tags are escaped.
+   */
+  public function display_name() {
+    return h($this->common_name) . "<br><em>" . h($this->scientific_name) . "</em>";
+  }
 
 
+  public function __toString() {
+    if ($this->food == "Omnivore") {
+      $food_msg = " and is omnivorous. ";
+    } else {
+      $food_msg = " and eats " . strtolower(h($this->food)) . ". ";
+    }
+    $msg = h($this->common_name) . ", scientifically called <em>" . h($this->scientific_name) . "</em>, is a " . strtolower(h($this->size_class())) . "-size bird which lives at " . strtolower(h($this->habitat)) . $food_msg . $this->backyard_tips;
+    return $msg;
+  }
 
 }
 
