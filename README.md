@@ -55,12 +55,14 @@ of an class.
 money_format() added the dollar sign. With number_format(), this is to be added separately.
 
 ## Git History
-Paste the output of:
-asgn05_bike_bird_challenge.md 2026-09-23
-6 / 38
-```text
-git log --oneline --graph --all --decorate
-```
+\*   01d5e15 (HEAD -> main) Merge branch 'asgn05-bird'
+|\  
+| * b0fa938 (asgn05-bird) Completed asgn05-bird
+| * 82f8969 Mostly finished bird.class.php. Want to test some things before proceeding with TODOs 2, 9, 10. Further progress on birds.php would be nice for testing those.
+\* | cee0463 (origin/main, origin/asgn05-bike, origin/HEAD, asgn05-bike) Added comment to parsecsv.class.php that I had forgotten to save previously
+|/  
+\* 36778c6 Completed work on asgn05-bike
+\* eb882d2 Started work on asgn05-bike
 
 ## AI Log
 Forgot to keep track.. Used twice or thrice for debugging.
