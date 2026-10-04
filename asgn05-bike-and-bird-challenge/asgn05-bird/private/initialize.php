@@ -87,5 +87,11 @@
     }
   }
   spl_autoload_register('my_autoload');
+  /*
+   * Autoload is active. Autoload is an improvement over manual loading because,
+   * well, it's automatic. Renaming, adding new classes, deleting classes... These
+   * would force you to manually change the loading process. This is not the case
+   * with autoloading.
+   */
 
 ?>

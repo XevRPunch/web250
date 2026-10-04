@@ -7,39 +7,52 @@ Xev Punch
 WEB 250
 
 ## Project Overview
-Briefly explain what the Bike and Bird Challenge demonstrates.
+The Bike and Bird challenge demonstrates the creation and use of php Classes.
+It also shows hoe the logic of one program can be copied to create a different one.
 
 ## Bike Challenge
-Briefly describe the bicycle portion of the assignment.
+The bike challenge makes an html table from a csv of bikes.
 
 ## Bird Challenge
-Briefly describe the bird portion of the assignment.
+The bird challenge makes an html table from a csv of birds.
 
 ## Go Further Choices
-1. Choice:
+1. Choice: 4
 What you added:
-2. Choice:
+__toString() function in the Bird class describes the bird in a sentence.
+Automatically called when a Bird object is meant to be in the form of a string.
+
+2. Choice: 6
 What you added:
+birds.php parses a second csv now. Counts the rows in each csv separately.
 
 ## Concept Check
 
 ### 1. Static Property vs Constant
-Your answer here.
+Delimiter is approriate for a static because it exists to be changed, and this is
+done outside of the individual ParseCSV objects.
+CATEGORIES is a constant because it does not need to change.  
 
 ### 2. Constructor `$args` Array
-Your answer here.
+There is no problem if somebody reorders the CSV columns because the $args array is
+based on string keys rather than numerical indices.
+If it used ten positional parameters it would break if the CSV columns were reordered.
 
 ### 3. Public vs Protected
-Your answer here.
+The setters of $wingspan_cm guarentees that the weights of birds are all measured in the
+same unit of measurement by converting to that unit if it is not already being used.
 
 ### 4. Private `reset()`
-Your answer here.
+If an outside page could call reset(), it can cause the parser to break if reset() is
+called after parsing and before calling last_results()
 
 ### 5. `self::CONSERVATION_OPTIONS`
-Your answer here.
+self is used to refer to the class itself. $this is used to refer to the object of a
+class. self:: is used for constants because they are universal across every instance
+of an class.
 
 ### 6. `money_format()` vs `number_format()`
-Your answer here.
+money_format() added the dollar sign. With number_format(), this is to be added separately.
 
 ## Git History
 Paste the output of:
@@ -50,5 +63,5 @@ git log --oneline --graph --all --decorate
 ```
 
 ## AI Log
-- Question asked:
-- How the answer was used:
+Forgot to keep track.. Used twice or thrice for debugging.
+No AI-generated code was used.
