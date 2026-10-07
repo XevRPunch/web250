@@ -34,12 +34,14 @@
         </ul>
       </li>
 
-      <li id="latest">Asgn-05
+      <li>Asgn-05
         <ul>
           <a href="asgn05-bike-and-bird-challenge/asgn05-bike/public/"><li>Bike Challenge</li></a>
           <a href="asgn05-bike-and-bird-challenge/asgn05-bird/public/"><li>Bird Challenge</li></a>
         </ul>
       </li>
+
+      <a href="asgn07/public/"><li id="latest">Asgn-07 - PHP OOP Databases</li></a>
     </ol>
   </body>
 
