@@ -41,7 +41,14 @@
         </ul>
       </li>
 
-      <a href="asgn07/public/"><li id="latest">Asgn-07 - PHP OOP Databases</li></a>
+      <a href="asgn07/public/"><li>Asgn-07 - PHP OOP Databases</li></a>
+
+      <li id="latest">Asgn-08
+        <ul>
+          <a href="debugging_setup/index.php"><li>Debugging Setup</li></a>
+          <a href="asgn08/public/index.php"><li>WNC Birds Active Record</li></a>
+        </ul>
+      </li>
     </ol>
   </body>
 

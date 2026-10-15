@@ -20,33 +20,64 @@ final class Bird
 
     public static function set_database(PDO $pdo): void
     {
-        // TODO: Save the PDO connection in the static property.
-        throw new LogicException('Implement Bird::set_database().');
+        self::$database = $pdo;
     }
 
     /** @return Bird[] */
     public static function find_all(): array
     {
-        // TODO: SELECT all birds, sorted by common_name. Return Bird objects.
-        throw new LogicException('Implement Bird::find_all().');
+      $all_birds = self::$database->query('
+        SELECT id, common_name, scientific_name, family_name, primary_habitat, seasonal_status, description
+        FROM birds
+        ORDER BY common_name'
+      );
+      $all_birds = $all_birds->fetchAll(PDO::FETCH_ASSOC);
+      
+      $object_birds = [];
+      if ($all_birds) {
+        foreach ($all_birds as $bird) {
+          $object_birds[] = self::from_row($bird);
+        }
+      }
+
+      return $object_birds;
     }
 
     public static function find_by_id(int $id): ?self
     {
-        // TODO: Use a prepared statement; return a Bird or null.
-        throw new LogicException('Implement Bird::find_by_id().');
+      $sql = 'SELECT id, common_name, scientific_name, family_name, primary_habitat, seasonal_status, description
+              FROM birds
+              WHERE id = :id';
+      $statement = self::$database->prepare($sql);
+      $statement->execute(['id' => $id]);
+      $bird_from_id = $statement->fetch(PDO::FETCH_ASSOC);
+
+      if ($bird_from_id) {
+        $bird_from_id = self::from_row($bird_from_id);
+      } else {
+        $bird_from_id = null;
+      }
+
+      return $bird_from_id;
     }
 
     // Refactoring task: both query methods should reuse this single mapper.
     private static function from_row(array $row): self
     {
-        // TODO: Populate all seven properties and return the Bird object.
-        throw new LogicException('Implement Bird::from_row().');
+      $bird = new self();
+      $bird->id = (int) $row['id'];
+      $bird->common_name = (string) $row['common_name'];
+      $bird->scientific_name = (string) $row['scientific_name'];
+      $bird->family_name = (string) $row['family_name'];
+      $bird->primary_habitat = (string) $row['primary_habitat'];
+      $bird->seasonal_status = (string) $row['seasonal_status'];
+      $bird->description = (string) $row['description'];
+      return $bird;
     }
 
     public static function count_all(): int
     {
-        // TODO: Return the number of rows in birds (no hydration needed).
-        throw new LogicException('Implement Bird::count_all().');
+      $count = (int) self::$database->query('SELECT COUNT(*) FROM birds')->fetchColumn();
+      return $count;
     }
 }
