@@ -2,9 +2,7 @@
 
 This starter is based on the completed reference version of asgn08. It already contains the read-only Active Record methods and pages so everyone can begin asgn09 from roughly the same structure.
 
-## Assignment goal
-
-Add the **Create** portion of CRUD using:
+Adds the **Create** portion of CRUD using:
 
 - `public/bird_new.php`
 - a `Bird::create()` instance method
@@ -13,26 +11,13 @@ Add the **Create** portion of CRUD using:
 
 ## Database
 
-Use the existing `wnc_birds` database and `birds` table from the previous assignments.
+Uses the existing `wnc_birds` database and `birds` table from the previous assignments.
 
-## Credentials
+Bird.php is the model and birds.php is the directory view.
+The application is moving toward MVC but is not entirely there.
 
-Copy:
+The PDO prepared INSERT creates the SQL statement without any actual values so that it can later have what was typed into the form inserted as values safely.
 
-```text
-private/db_credentials.example.php
-```
+## To run locally
 
-to:
-
-```text
-private/db_credentials.php
-```
-
-Then enter the database settings for your own local or hosted environment.
-
-`private/db_credentials.php` is ignored by Git and must not be committed.
-
-## Student README TODO
-
-Before submitting asgn09, replace or expand this README with the information requested in the assignment instructions, including your create flow, prepared-statement explanation, MVC direction, Git branch workflow, and final URLs.
+Make a copy of db_credentials.example.php called db_credentials.php and replace the credentials therein with those matching your local database.

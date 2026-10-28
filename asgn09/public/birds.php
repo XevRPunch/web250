@@ -18,6 +18,7 @@ $birds = Bird::find_all();
     <p><a href="index.php">Back to index</a></p>
 
     <!-- asgn09 TODO: Add the Create Bird link here, above the table. -->
+     <p><a href="bird_new.php">Create a bird</a></p>
 
     <?php if ($birds === []): ?>
         <p>No birds were found.</p>

@@ -43,12 +43,14 @@
 
       <a href="asgn07/public/"><li>Asgn-07 - PHP OOP Databases</li></a>
 
-      <li id="latest">Asgn-08
+      <li>Asgn-08
         <ul>
           <a href="debugging_setup/index.php"><li>Debugging Setup</li></a>
           <a href="asgn08/public/index.php"><li>WNC Birds Active Record</li></a>
         </ul>
       </li>
+
+      <a href="asgn09/public/birds.php"><li id="latest">Asgn-09 - Create</li></a>
     </ol>
   </body>
 

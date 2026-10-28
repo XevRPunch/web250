@@ -101,4 +101,30 @@ final class Bird
     // 5. execute().
     // 6. On success, assign lastInsertId() to $this->id.
     // 7. Return the result.
+    public function create(): bool
+    {
+      $sql = "INSERT INTO birds
+                  (common_name, scientific_name, family_name,
+                   primary_habitat, seasonal_status, description)
+              VALUES
+                  (:common_name, :scientific_name, :family_name,
+                   :primary_habitat, :seasonal_status, :description)";
+      
+      $statement = self::$database->prepare($sql);
+
+      $statement->bindValue(':common_name', $this->common_name, PDO::PARAM_STR);
+      $statement->bindValue(':scientific_name', $this->scientific_name, PDO::PARAM_STR);
+      $statement->bindValue(':family_name', $this->family_name, PDO::PARAM_STR);
+      $statement->bindValue(':primary_habitat', $this->primary_habitat, PDO::PARAM_STR);
+      $statement->bindValue(':seasonal_status', $this->seasonal_status, PDO::PARAM_STR);
+      $statement->bindValue(':description', $this->description, PDO::PARAM_STR);
+
+      $result = $statement->execute();
+
+      if ($result) {
+        $this->id = (int) self::$database->lastInsertId();
+      }
+
+      return $result;
+    }
 }

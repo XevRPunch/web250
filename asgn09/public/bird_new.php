@@ -19,7 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If the required values are present, call $bird->create().
     // On success, redirect to birds.php and exit.
     // Otherwise, set a short error message.
+    $bird->common_name = trim($_POST['common_name'] ?? '');
+    $bird->scientific_name = trim($_POST['scientific_name'] ?? '');
+    $bird->family_name = trim($_POST['family_name'] ?? '');
+    $bird->primary_habitat = trim($_POST['primary_habitat'] ?? '');
+    $bird->seasonal_status = trim($_POST['seasonal_status'] ?? '');
+    $bird->description = trim($_POST['description'] ?? '');
+    
+    if ($bird->create()) {
+      header('Location: bird.php?id=' . $bird->id);
+      exit;
+    }
+
+    $error = 'The bird record could not be created.';
 }
+
 ?>
 <!doctype html>
 <html lang="en">
