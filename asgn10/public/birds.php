@@ -40,7 +40,11 @@ $birds = Bird::find_all();
                         <td><em><?= h($bird->scientific_name) ?></em></td>
                         <td><?= h($bird->primary_habitat) ?></td>
                         <td><?= h($bird->seasonal_status) ?></td>
-                        <td><a href="bird.php?id=<?= (int) $bird->id ?>">View details</a></td>
+                        <td>
+                          <a href="bird.php?id=<?= (int) $bird->id ?>">View details</a>
+                          <a href="bird_edit.php?id=<?= (int) $bird->id ?>">Update</a>
+                          <a href="bird_delete.php?id=<?= (int) $bird->id ?>">Delete</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
