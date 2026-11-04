@@ -149,4 +149,26 @@ final class Bird
       
       return $statement->execute();
     }
+
+    public function delete(): bool
+    {
+      if (self::$database === null) {
+        throw new RuntimeException('Call set_database() before delete().');
+      }
+
+      if ($this->id <= 0) {
+        return false;
+      }
+
+      $sql = 'DELETE FROM birds WHERE id = :id';
+      $statement = self::$database->prepare($sql);
+      $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
+      $statement->execute();
+      if ($statement->rowCount() === 1) {
+        $this->id = 0;
+        return true;
+      }
+
+      return false;
+    }
 }
