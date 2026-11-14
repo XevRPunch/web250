@@ -17,8 +17,22 @@ $birds = Bird::find_all();
 
     <p><a href="index.php">Back to index</a></p>
 
-    <!-- asgn09 TODO: Add the Create Bird link here, above the table. -->
-     <p><a href="bird_new.php">Create a bird</a></p>
+    <hr>
+
+    <?php if (!Member::is_logged_in()): ?>
+      <p><a href="login.php">Log In</a></p>
+      <p><a href="register.php">Register</a></p>
+    <?php endif; ?>
+
+    <?php if (Member::is_logged_in()): ?>
+      <p><a href="logout.php">Log Out</a></p>
+    <?php endif; ?>
+
+    <hr>
+    
+    <?php if (Member::is_logged_in()): ?>
+      <p><a href="bird_new.php">Create a bird</a></p>
+    <?php endif; ?>
 
     <?php if ($birds === []): ?>
         <p>No birds were found.</p>
@@ -42,8 +56,10 @@ $birds = Bird::find_all();
                         <td><?= h($bird->seasonal_status) ?></td>
                         <td>
                           <a href="bird.php?id=<?= (int) $bird->id ?>">View details</a>
-                          <a href="bird_edit.php?id=<?= (int) $bird->id ?>">Update</a>
-                          <a href="bird_delete.php?id=<?= (int) $bird->id ?>">Delete</a>
+                          <?php if (Member::is_logged_in()): ?>
+                            <a href="bird_edit.php?id=<?= (int) $bird->id ?>">Update</a>
+                            <a href="bird_delete.php?id=<?= (int) $bird->id ?>">Delete</a>
+                          <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
