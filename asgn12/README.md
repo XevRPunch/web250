@@ -43,11 +43,19 @@ The real session stores the member ID. The current first name and role are read 
 
 ## My completion notes — fill in before submission
 
-**Student:** [your name]  
-**Project description:** [brief description]  
-**GitHub asgn12 URL:** [link]  
-**Webhost public URL:** [link]  
+**Student:** Xev Punch
+**Project description:** Adds an Admin role to the existing Birds application. Admins can manage other users. Members cannot access Admin pages through any means.
+**GitHub asgn12 URL:** https://github.com/XevRPunch/web250/tree/main/asgn12
+**Webhost public URL:** https://xevpunch.nfshost.com/web250/asgn12/public/birds.php
 **Branch:** `dev-admin-roles`, merged into `main` after testing
+
+### Setup Instructions
+Run composter install in the asgn12 directory to install dependencies.
+Make a copy of .env.example and fill in the information as accurate to your database.
+
+The database has the following tables and columns:
+- birds: id, common_name, scientific_name, family_name, primary_habitat, seasonal_status, description
+- members: id, first_name, last_name, email, username, password_hash, role
 
 ### Test results
 
@@ -55,35 +63,35 @@ Replace the blank cells with Pass/Needs work and a short note. Record the actual
 
 | Check | Local result | Webhost result |
 |---|---|---|
-| Visitor can read birds and is denied Bird writes/admin pages | | |
-| Member can manage birds and is denied admin pages, including POST | | |
-| Admin can manage birds and members | | |
-| Personalized menu and nested admin links | | |
-| Create validates roles, uniqueness, and password | | |
-| Update saves fields, preserves password, and blocks self-demotion | | |
-| Delete confirms, uses POST, and blocks self-deletion | | |
-| Invalid IDs / missing rows produce appropriate responses | | |
-| Invalid CSRF token makes no database change | | |
-| Private files denied on the host | Local-only server may ignore `.htaccess` | |
+| Visitor can read birds and is denied Bird writes/admin pages | Pass | Pass |
+| Member can manage birds and is denied admin pages, including POST | Pass | Pass |
+| Admin can manage birds and members | Pass | Pass |
+| Personalized menu and nested admin links | Pass | Pass |
+| Create validates roles, uniqueness, and password | Pass | Pass |
+| Update saves fields, preserves password, and blocks self-demotion | Pass | Pass |
+| Delete confirms, uses POST, and blocks self-deletion | Pass | Pass |
+| Invalid IDs / missing rows produce appropriate responses | Pass | Pass |
+| Invalid CSRF token makes no database change | Pass | Pass |
+| Private files denied on the host | Local-only server may ignore `.htaccess` | Pass |
 
-**Known remaining issues:** [none, or describe accurately]
+**Known remaining issues:** none
 
 ### Explain these four ideas in your own words
 
 1. Why do we need `require_admin()` when the Admin link is already hidden?
 
-   [Your explanation]
+   URLs can be entered manually. Somebody could easily guess the names of the pages within the admin folder.
 
 2. What does `from_row()` return, and how does the member list use it?
 
-   [Your explanation]
+   from_row() returns a Member object. The member list uses it (through find_all()) to create rows in the table.
 
 3. Why does updating a member preserve their password?
 
-   [Your explanation]
+   There is no password field in the form, and password_hash is absent from the UPDATE statement. Password reset is outside this assignment.
 
 4. Why does Delete use a confirmation GET followed by a checked POST?
 
-   [Your explanation]
+   The user should not be deleted upon immediately visiting the page, so there is a GET and POST phase, one for confirming that you really want to delete the member, and one for actually deleting the member. This arrangement also better allows communicating to the user that they cannot delete their own account.
 
 Submit the two required links in Moodle. The two sandboxes are optional, ungraded, local practice and are not submitted.

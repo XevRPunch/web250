@@ -34,8 +34,14 @@ class Member
     // BEGIN T03
     public static function find_all(): array
     {
-        // TODO T03: retrieve rows, turn each into a Member, and return the array.
-        return [];
+        $sql = 'SELECT id, first_name, last_name, email, username, password_hash, role
+                FROM members ORDER BY last_name, first_name, id';
+        $statement = self::$database->query($sql);
+        $members = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $members[] = self::from_row($row);
+        }
+        return $members;
     }
     // END T03
 
@@ -162,25 +168,52 @@ class Member
     // BEGIN T05
     public function create_by_admin(): bool
     {
-        // TODO T05: call the existing insert_with_role() helper.
-        return false;
+        return $this->insert_with_role($this->role);
     }
     // END T05
 
     // BEGIN T06
     public function update_by_admin(int $acting_admin_id): bool
     {
-        // TODO T06: preserve the guards, then run the prepared UPDATE.
-        // Returning false leaves the database unchanged while this is incomplete.
-        return false;
+        if ($this->id === null) {
+            throw new LogicException('Cannot update a Member without an ID.');
+        }
+        if (!in_array($this->role, ['member', 'admin'], true)) {
+            throw new InvalidArgumentException('Invalid role.');
+        }
+        if ($this->id === $acting_admin_id && $this->role !== 'admin') {
+            throw new DomainException('Administrators cannot remove their own admin role.');
+        }
+        // Note: no password_hash in UPDATE. Password reset is outside asgn12.
+        $sql = 'UPDATE members
+                SET first_name=:first_name, last_name=:last_name, email=:email,
+                    username=:username, role=:role
+                WHERE id=:id';
+        $statement = self::$database->prepare($sql);
+        return $statement->execute([
+            ':first_name' => $this->first_name,
+            ':last_name' => $this->last_name,
+            ':email' => $this->email,
+            ':username' => $this->username,
+            ':role' => $this->role,
+            ':id' => $this->id,
+        ]);
     }
     // END T06
 
     // BEGIN T07
     public function delete_by_admin(int $acting_admin_id): bool
     {
-        // TODO T07: preserve the self-delete check, then run a prepared DELETE.
-        return false;
+        if ($this->id === null) {
+            throw new LogicException('Cannot delete a Member without an ID.');
+        }
+        if ($this->id === $acting_admin_id) {
+            throw new DomainException('An administrator cannot delete their own account.');
+        }
+        $statement = self::$database->prepare('DELETE FROM members WHERE id = :id');
+        $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->rowCount() === 1;
     }
     // END T07
 }

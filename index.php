@@ -52,7 +52,11 @@
 
       <a href="asgn09/public/birds.php"><li>Asgn-09 - Create</li></a>
 
-      <a href="asgn10/public/birds.php"><li id="latest">Asgn-10 - Update and Delete</li></a>
+      <a href="asgn10/public/birds.php"><li>Asgn-10 - Update and Delete</li></a>
+
+      <a href="asgn11/public/birds.php"><li>Asgn-11 - Members, Login, and Bird Permissions</li></a>
+
+      <a href="asgn12/public/birds.php"><li id="latest">Asgn-12 - Admin</li></a>
     </ol>
   </body>
 
